@@ -3,14 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use App\Http\Controllers\Controller;
-
-use App\DataSensor;
+use App\Sensor;
 use Response;
-use Illuminate\Support\Str;
 
-class DataSensorController extends Controller
+class SensorsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,9 +15,14 @@ class DataSensorController extends Controller
      */
     public function index()
     {
-        $dataSensor = DataSensor::all();
-        // $response = Response::json($dataSensor,200);
-        return $dataSensor;
+        $sensor = Sensor::all();
+        $lastest = $sensor->find($sensor->count());
+        $response = Response::json([
+          $lastest, 200
+        ]);
+
+        return $response;
+        // return $sensor->count();
     }
 
     /**
@@ -42,29 +43,29 @@ class DataSensorController extends Controller
      */
     public function store(Request $request)
     {
-        if ((!$request->deviceID) || (!$request->Temperature) || (!$request->Humidity)) {
+        if ((!$request->deviceID) || (!$request->temperature) || (!$request->humidity)) {
           $response = Response::json([
             'error' => [
-              'message' => 'Please enter required fields.'
+              'message' => 'Please fill all fields.'
             ]
           ], 422);
-          return response;
+          return $response;
         }
 
-        $datasensor = new DataSensor(array(
-          'deviceID' => $request->deviceID,
-          'Temperature' => $request->Temperatur,
-          'Humdity' => $request->Humidity
+        $sensor = new Sensor(array(
+            'deviceID' => $request->deviceID,
+            'temperature' => $request->temperature,
+            'humidity' => $request->humidity,
         ));
 
-        $datasensor->save();
+        $sensor->save();
 
         $response = Response::json([
-          'message' => 'Data has uploaded succesfully.',
-          'data' => $datasensor
+          'message' => 'Data has received succesfully.',
+          'data' => $sensor,
         ], 201);
 
-        return response;
+        return $response;
     }
 
     /**
@@ -75,21 +76,7 @@ class DataSensorController extends Controller
      */
     public function show($id)
     {
-        $datasensor = DataSensor::find($id);
-
-        if (!$datasensor) {
-          $response = Response::json([
-            'error' =>  [
-              'message' => 'Not found.'
-            ]
-          ], 400);
-          return $response;
-        }
-
-        $response = Response::json([
-          $datasensor, 200
-        ]);
-        return $response;
+        //
     }
 
     /**

@@ -11,13 +11,13 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 
-// Route::get('dataSensor', 'DataSensorController@index');
-// Route::post('dataSensor', 'DataSensorController@store');
-
-Route::group(['prefix' => 'api/v1', 'middleware' => 'api'], function(){
-  Route::resource('dataSensors', 'DataSensorController');
+Route::group([
+  'prefix' =>  'api/v1',
+  'middleware' => 'api'
+], function(){
+  Route::resource('sensors', 'SensorsController');
 });
