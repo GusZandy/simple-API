@@ -21,3 +21,7 @@ Route::group([
 ], function(){
   Route::resource('sensors', 'SensorsController');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

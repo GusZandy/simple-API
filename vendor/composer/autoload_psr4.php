@@ -39,5 +39,6 @@ return array(
     'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
     'Cron\\' => array($vendorDir . '/mtdowling/cron-expression/src/Cron'),
     'Carbon\\' => array($vendorDir . '/nesbot/carbon/src/Carbon'),
+    'Atnic\\AdminLTE\\' => array($vendorDir . '/atnic/laravel-admin-lte/app'),
     'App\\' => array($baseDir . '/app'),
 );
