@@ -6,6 +6,7 @@ use App\Helpers\JsonResponse;
 use Illuminate\Http\Request;
 use App\Sensor;
 use Response;
+use Illuminate\Support\Facades\Validator;
 
 class SensorsController extends Controller
 {
@@ -19,6 +20,7 @@ class SensorsController extends Controller
         $this->middleware('auth:api')->except(['store']);
         $this->middleware([
         'user.agent:idiot-device',
+        'accept.json',
       ])->only(['store']);
     }
 
@@ -57,7 +59,17 @@ class SensorsController extends Controller
      */
     public function store(Request $request)
     {
-        if ((!$request->deviceID) || (!$request->temperature) || (!$request->humidity)) {
+      $validator = Validator::make($request->all(),[
+        'device_id' => 'required|string',
+        'temperature' => 'numeric',
+        'humidity' => 'numeric'
+      ]);
+
+      if ($validator->fails()) {
+            return $this->responseBadRequest('Bad Request.', $validator->errors());
+        }
+
+       if ((!$request->device_id) || (!$request->temperature) || (!$request->humidity)) {
             $response = Response::json([
             'error' => [
               'message' => 'Please fill all fields.'
@@ -66,8 +78,9 @@ class SensorsController extends Controller
             return $response;
         }
 
+
         $sensor = new Sensor(array(
-            'deviceID' => $request->deviceID,
+            'device_id' => $request->device_id,
             'temperature' => $request->temperature,
             'humidity' => $request->humidity,
         ));

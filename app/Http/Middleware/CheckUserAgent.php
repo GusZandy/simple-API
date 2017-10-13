@@ -21,14 +21,10 @@ class CheckUserAgent
     public function handle($request, Closure $next, $userAgent)
     {
       if ($request->header('User-Agent') != $userAgent) {
-            if (Str::contains($request->header('Accept'), ['/json', '+json'])) {
+            if ($request->expectsJson() || Str::contains($request->header('Accept'), ['/json', '+json'])) {
                 return $this->responseForbidden('Forbidden.', NULL);
             }
             else return redirect('/');
-        } else {
-          if (!Str::contains($request->header('Accept'), ['/json', '+json'])) {
-              return $this->responseForbidden('Forbidden.', NULL);
-          }
         }
         return $next($request);
     }
