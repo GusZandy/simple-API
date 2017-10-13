@@ -2,12 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\JsonResponse;
 use Illuminate\Http\Request;
 use App\Sensor;
 use Response;
 
 class SensorsController extends Controller
 {
+
+  use JsonResponse;
+  /**
+   * [__construct description]
+   */
+    public function __construct()
+    {
+        $this->middleware('auth:api')->except(['store']);
+        $this->middleware([
+        'user.agent:idiot-device',
+      ])->only(['store']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -44,12 +58,12 @@ class SensorsController extends Controller
     public function store(Request $request)
     {
         if ((!$request->deviceID) || (!$request->temperature) || (!$request->humidity)) {
-          $response = Response::json([
+            $response = Response::json([
             'error' => [
               'message' => 'Please fill all fields.'
             ]
           ], 422);
-          return $response;
+            return $response;
         }
 
         $sensor = new Sensor(array(
