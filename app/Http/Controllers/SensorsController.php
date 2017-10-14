@@ -37,14 +37,7 @@ class SensorsController extends Controller
      */
     public function index()
     {
-        $sensor = Sensor::all();
-        $lastest = $sensor->find($sensor->count());
-        $response = Response::json([
-          $lastest, 200
-        ]);
-
-        return $response;
-        // return $sensor->count();
+      
     }
 
     /**

@@ -15,13 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group([
-  'prefix' =>  'api/v1',
-  'middleware' => 'api'
-], function(){
-  Route::resource('sensors', 'SensorsController');
-});
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
