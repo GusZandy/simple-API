@@ -58,6 +58,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'user.agent' => \App\Http\Middleware\CheckUserAgent::class,
         'accept.json' => \App\Http\Middleware\CheckAcceptJson::class,
+        'device' => \App\Http\Middleware\VerifyDeviceCode::class,
 
     ];
 }

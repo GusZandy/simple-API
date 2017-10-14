@@ -19,6 +19,9 @@ class CreateSensorsTable extends Migration
             $table->integer('temperature');
             $table->integer('humidity');
             $table->timestamps();
+
+            $table->foreign('device_id')->references('device_id')->on('devices')
+                  ->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

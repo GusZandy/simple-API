@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\JsonResponse;
+use App\Http\Requests;
 use Illuminate\Http\Request;
-use App\Sensor;
-use Response;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
+
+use App\Sensor;
+use App\Device;
+use Response;
+use Exception;
 
 class SensorsController extends Controller
 {
@@ -19,9 +24,10 @@ class SensorsController extends Controller
     {
         $this->middleware('auth:api')->except(['store']);
         $this->middleware([
-        'user.agent:idiot-device',
-        'accept.json',
-      ])->only(['store']);
+            'device',
+            'user.agent:idiot-device',
+            'accept.json',
+          ])->only(['store']);
     }
 
     /**
@@ -61,23 +67,21 @@ class SensorsController extends Controller
     {
       $validator = Validator::make($request->all(),[
         'device_id' => 'required|string',
-        'temperature' => 'numeric',
-        'humidity' => 'numeric'
+        'temperature' => 'required|numeric',
+        'humidity' => 'required|numeric'
       ]);
 
       if ($validator->fails()) {
             return $this->responseBadRequest('Bad Request.', $validator->errors());
         }
+        // dd($request->device_id);
 
-       if ((!$request->device_id) || (!$request->temperature) || (!$request->humidity)) {
-            $response = Response::json([
-            'error' => [
-              'message' => 'Please fill all fields.'
-            ]
-          ], 422);
-            return $response;
+        $device_id = $request->device_id;
+        try {
+          $device = Device::findOrFail($device_id);
+        } catch (Exception $e) {
+          return $this->responseBadRequest('Bad Request', 'NULL');
         }
-
 
         $sensor = new Sensor(array(
             'device_id' => $request->device_id,
@@ -85,14 +89,8 @@ class SensorsController extends Controller
             'humidity' => $request->humidity,
         ));
 
-        $sensor->save();
-
-        $response = Response::json([
-          'message' => 'Data has received succesfully.',
-          'data' => $sensor,
-        ], 201);
-
-        return $response;
+        $device->sensor()->save($sensor);
+        return $this->responseCreated('devices',$sensor);
     }
 
     /**
