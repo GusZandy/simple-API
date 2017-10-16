@@ -1,9 +1,4 @@
-@extends('layouts.app')
-
-@section('content-title', 'Home')
-@section('content-subtitle', 'Dashboard')
-
-@section('content')
+@extends('layouts.app') @section('content-title', 'Home') @section('content-subtitle', 'Dashboard') @section('content')
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
     <div class="box box-primary">
@@ -16,7 +11,7 @@
           {{ session('status') }}
         </div>
         @endif
-        You are logged in!
+        
       </div>
     </div>
   </div>

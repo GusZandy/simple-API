@@ -16,6 +16,8 @@
   <!-- Styles -->
   @section('styles')
   <link href="{{ mix('/css/admin-lte.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
   @show
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -48,6 +50,7 @@
   <script src="{{ mix('/js/manifest.js') }}" charset="utf-8"></script>
   <script src="{{ mix('/js/vendor.js') }}" charset="utf-8"></script>
   <script src="{{ mix('/js/admin-lte.js') }}" charset="utf-8"></script>
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
   @show
   @stack('body')
 </body>

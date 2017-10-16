@@ -6,10 +6,7 @@
       <small>@yield('content-subtitle', 'Subtitle')</small>
     </h1>
     @section('breadcrumbs')
-    <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Title</li>
-    </ol>
+      
     @show
   </section>
 
