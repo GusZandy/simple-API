@@ -4,7 +4,7 @@
 <div class="login-box-body">
   <p class="login-box-msg">Register a new membership</p>
 
-  <form action="{{ route('register') }}" method="POST">
+  <form action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
     {{ csrf_field() }}
     <div class="form-group has-feedback{{ $errors->has('name') ? ' has-error' : '' }}">
       <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Full name" required autofocus>
@@ -30,6 +30,9 @@
     <div class="form-group has-feedback{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
       <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Retype Password" required>
       <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+    </div>
+     <div class="form-group has-feedback{{ $errors->has('image') ? ' has-error' : '' }}">
+      <input id="file" type="file" class="form-control" name="image" required|file>
     </div>
     <div class="row">
       <div class="col-md-12">

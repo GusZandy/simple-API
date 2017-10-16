@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\Input;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -47,9 +48,11 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+      // dd($data);
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -62,9 +65,24 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $fileName = 'null';
+
+
+        if (Input::hasFile('image')) {
+          $image = Input::file('image');
+
+          if ($image->isValid()) {
+              $destinationPath = public_path('images/users');
+              $fileName = uniqid().'.'.$image->getClientOriginalExtension();
+
+              $image->move($destinationPath, $fileName);
+          }
+        }
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'image' => $fileName,
             'password' => bcrypt($data['password']),
         ]);
     }

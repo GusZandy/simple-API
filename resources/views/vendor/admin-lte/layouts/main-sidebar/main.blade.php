@@ -7,7 +7,7 @@
     @if (auth()->check())
     <div class="user-panel">
       <div class="pull-left image">
-        <img src="@yield('user-avatar', 'https://www.gravatar.com/avatar/?d=mm')" class="img-circle" alt="User Image">
+        <img src={{ URL::to('/images/users/'.Auth::user()->image) }} class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
         <p>@yield('user-name', 'Alexander Pierce')</p>

@@ -15,7 +15,7 @@
                     <a href="#">
                         <div class="pull-left">
                             <!-- User Image -->
-                            <img src="https://www.gravatar.com/avatar/?d=mm" class="img-circle" alt="User Image">
+                            <img src={{ URL::to('/images/users/'.Auth::user()->image) }} class="img-circle" alt="User Image">
                         </div>
                         <!-- Message title and timestamp -->
                         <h4>
